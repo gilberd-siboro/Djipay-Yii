@@ -1,0 +1,27 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">     <a href=\"https://github.com/yiisoft\" target=\"_blank\">         <img src=\"https://avatars0.githubusercontent.com/u/993323\" height=\"100px\">     </a>     <h1 align=\"center\">Yii 2 Basic Project Template</h1>     <br> </p>",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "tailwindcss build web/css/app.css -o web/css/styles.css",
+    "watch-css": "tailwindcss build web/css/app.css -o web/css/styles.css --watch",
+    "serve": "php yii serve",
+    "dev": "concurrently \"npm run serve\" \"npm run watch-css\"",
+    "build": "npx tailwindcss -o build.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.4.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.4"
+  }
+}
