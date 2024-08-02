@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use Yii;
 use yii\web\Controller;
 
 class LeaveController extends Controller
@@ -10,9 +11,15 @@ class LeaveController extends Controller
         return $this->render('status');
     }
 
+
+    // ------------------ Request ------------------------
     public function actionRequest()
     {
-        return $this->render('request');
+        // Menggunakan DAO untuk mengambil data dari tabel employees
+        $command = Yii::$app->db->createCommand('SELECT * FROM employees');
+        $employees = $command->queryAll();
+
+        return $this->render('request', ['employees' => $employees]);
     }
 
     public function actionCalendar()

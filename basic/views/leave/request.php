@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Html;
+
 /** @var yii\web\View $this */
 
 $this->title = 'Leave Request';
@@ -45,7 +47,13 @@ $this->title = 'Leave Request';
                             <div>
                                 <label for="employe" class="block text-sm font-medium leading-6 text-gray-900">Employee</label>
                                 <div class="mt-2 border rounded-md">
-                                    <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Name">
+                                    <!-- <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Name"> -->
+                                    <select id="employe" name="employe" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                        <option value="">Choose Employee</option>
+                                        <?php foreach ($employees as $employee) : ?>
+                                            <option value="<?= Html::encode($employee['id']) ?>"><?= Html::encode($employee['nama_depan']) ?> <?= Html::encode($employee['nama_belakang']) ?> </option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="grid grid-cols-2 gap-6 mt-4">
                                     <div>
@@ -62,7 +70,7 @@ $this->title = 'Leave Request';
                                     <div class="mt-2">
                                         <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                                         <div class="relative">
-                                            <input type="text" id="date" name="date" placeholder="Choose date" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            <input type="date" id="date" name="date" placeholder="Choose date" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -76,6 +84,13 @@ $this->title = 'Leave Request';
                                         <div class="relative border rounded-md">
                                             <select id="duration" name="duration" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                                                 <option value="">Choose duration</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
                                             </select>
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
 
@@ -86,7 +101,7 @@ $this->title = 'Leave Request';
                                     <div class="mt-2">
                                         <label for="attachments" class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
                                         <div class="relative border rounded-md">
-                                            <input type="text" id="attachments" name="attachments" placeholder="Choose file" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            <input type="file" id="attachments" name="attachments" placeholder="Choose file" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
