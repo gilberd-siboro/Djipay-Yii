@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 6.0.0-dev+20230604.23c536099d
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 23, 2024 at 07:12 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.5
+-- Host: localhost:3306
+-- Generation Time: Aug 03, 2024 at 02:27 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,20 +28,28 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `absensi_log` (
-  `id` int(11) NOT NULL,
-  `id_absensi_type` int(11) NOT NULL,
-  `id_absensi_status` int(11) NOT NULL,
-  `tanggal_absensi` date NOT NULL,
-  `day` varchar(255) NOT NULL,
-  `waktu_absensi` time NOT NULL,
-  `latitude` varchar(255) NOT NULL,
-  `longitude` varchar(255) NOT NULL,
-  `keterangan` varchar(255) NOT NULL,
-  `bukti_hadir` varchar(255) NOT NULL,
-  `created_at` varchar(255) NOT NULL,
-  `updated_at` varchar(255) NOT NULL,
-  `created_by` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int NOT NULL,
+  `id_absensi_type` int DEFAULT NULL,
+  `id_absensi_status` int DEFAULT NULL,
+  `tanggal_absensi` date DEFAULT NULL,
+  `day` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `waktu_absensi` time DEFAULT NULL,
+  `latitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `longitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `bukti_hadir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `updated_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_by` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `absensi_log`
+--
+
+INSERT INTO `absensi_log` (`id`, `id_absensi_type`, `id_absensi_status`, `tanggal_absensi`, `day`, `waktu_absensi`, `latitude`, `longitude`, `keterangan`, `bukti_hadir`, `created_at`, `updated_at`, `created_by`) VALUES
+(12, NULL, NULL, NULL, NULL, '20:02:00', NULL, NULL, 'Hadir', NULL, NULL, NULL, 2),
+(13, NULL, NULL, NULL, NULL, '07:04:00', NULL, NULL, 'Hadir', NULL, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -50,26 +58,34 @@ CREATE TABLE `absensi_log` (
 --
 
 CREATE TABLE `absensi_overtime` (
-  `id` int(11) NOT NULL,
-  `employee_name` varchar(255) NOT NULL,
-  `employee_id` varchar(255) NOT NULL,
-  `department` varchar(255) NOT NULL,
-  `position` varchar(255) NOT NULL,
-  `overtime_date` date NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  `total_hours` decimal(5,2) NOT NULL,
-  `overtime_reason` text NOT NULL,
-  `employee_signature` tinyint(1) NOT NULL,
-  `supervisor_signature` tinyint(1) NOT NULL,
-  `manager_signature` tinyint(1) NOT NULL,
-  `hrd_signature` tinyint(1) NOT NULL,
-  `approval_date` date NOT NULL,
-  `overtime_tasks` text NOT NULL,
-  `overtime_rate` decimal(10,2) NOT NULL,
-  `total_compensation` decimal(10,2) NOT NULL,
-  `additional_notes` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int NOT NULL,
+  `employee_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `employee_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `department` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `position` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `overtime_date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `total_hours` decimal(5,2) DEFAULT NULL,
+  `overtime_reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `employee_signature` tinyint(1) DEFAULT NULL,
+  `supervisor_signature` tinyint(1) DEFAULT NULL,
+  `manager_signature` tinyint(1) DEFAULT NULL,
+  `hrd_signature` tinyint(1) DEFAULT NULL,
+  `approval_date` date DEFAULT NULL,
+  `overtime_tasks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `overtime_rate` decimal(10,2) DEFAULT NULL,
+  `total_compensation` decimal(10,2) DEFAULT NULL,
+  `additional_notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `absensi_overtime`
+--
+
+INSERT INTO `absensi_overtime` (`id`, `employee_name`, `employee_id`, `department`, `position`, `overtime_date`, `start_time`, `end_time`, `total_hours`, `overtime_reason`, `employee_signature`, `supervisor_signature`, `manager_signature`, `hrd_signature`, `approval_date`, `overtime_tasks`, `overtime_rate`, `total_compensation`, `additional_notes`) VALUES
+(1, NULL, '2', NULL, NULL, NULL, NULL, '19:03:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, NULL, '2', NULL, NULL, NULL, NULL, '20:04:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -78,12 +94,12 @@ CREATE TABLE `absensi_overtime` (
 --
 
 CREATE TABLE `absensi_status` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `status` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `created_at` varchar(255) NOT NULL,
   `updated_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -92,12 +108,12 @@ CREATE TABLE `absensi_status` (
 --
 
 CREATE TABLE `absensi_type` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `type` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `created_at` varchar(255) NOT NULL,
   `updated_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -106,18 +122,18 @@ CREATE TABLE `absensi_type` (
 --
 
 CREATE TABLE `employees` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama_depan` varchar(255) NOT NULL,
   `nama_belakang` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `tanggal_lahir` date NOT NULL,
   `jenis_kelamin` varchar(255) NOT NULL,
   `no_telepon` varchar(16) NOT NULL,
-  `position_id` int(11) NOT NULL,
+  `position_id` int NOT NULL,
   `type_karyawan` varchar(255) NOT NULL,
   `created_at` varchar(255) NOT NULL,
   `updated_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `employees`
@@ -133,7 +149,7 @@ INSERT INTO `employees` (`id`, `nama_depan`, `nama_belakang`, `email`, `tanggal_
 --
 
 CREATE TABLE `employees_allowance` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `tunjangan_makan` decimal(15,2) NOT NULL,
   `tunjangan_jabatan` decimal(15,2) NOT NULL,
   `tunjangan_keluarga` decimal(15,2) NOT NULL,
@@ -141,9 +157,9 @@ CREATE TABLE `employees_allowance` (
   `tunjangan_kehadiran` decimal(15,2) NOT NULL,
   `bpjs_kesehatan` decimal(15,2) NOT NULL,
   `bpjs_ketenagakerjaan` decimal(15,2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -152,13 +168,13 @@ CREATE TABLE `employees_allowance` (
 --
 
 CREATE TABLE `employees_position` (
-  `id` int(11) NOT NULL,
-  `position_salary_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `position_salary_id` int NOT NULL,
   `position_name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `created_at` varchar(255) NOT NULL,
   `updated_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `employees_position`
@@ -175,19 +191,19 @@ INSERT INTO `employees_position` (`id`, `position_salary_id`, `position_name`, `
 --
 
 CREATE TABLE `employees_position_salaries` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `gaji_pokok` decimal(15,2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `employees_position_salaries`
 --
 
 INSERT INTO `employees_position_salaries` (`id`, `gaji_pokok`, `created_at`, `updated_at`) VALUES
-(1, 1000000.00, '2024-07-10 07:39:59', NULL),
-(2, 2000000.00, '2024-07-10 07:40:12', NULL);
+(1, '1000000.00', '2024-07-10 07:39:59', NULL),
+(2, '2000000.00', '2024-07-10 07:40:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -196,12 +212,12 @@ INSERT INTO `employees_position_salaries` (`id`, `gaji_pokok`, `created_at`, `up
 --
 
 CREATE TABLE `employees_tax` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `percentage` decimal(10,3) NOT NULL,
-  `masa_berlaku` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `masa_berlaku` int NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -210,8 +226,8 @@ CREATE TABLE `employees_tax` (
 --
 
 CREATE TABLE `salaries` (
-  `id` int(11) NOT NULL,
-  `employee_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `employee_id` int NOT NULL,
   `tanggal_penggajian` date NOT NULL,
   `total_gaji_pokok` decimal(15,2) NOT NULL,
   `total_tunjangan_jabatan` decimal(15,2) NOT NULL,
@@ -223,10 +239,10 @@ CREATE TABLE `salaries` (
   `total_bpjs_ketenagakerjaan` decimal(15,2) NOT NULL,
   `total_pajak_pph_21` decimal(15,2) NOT NULL,
   `total_gaji` decimal(15,2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `persentase_pajak_pph_21` decimal(15,6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -235,19 +251,26 @@ CREATE TABLE `salaries` (
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `auth_key` varchar(255) NOT NULL,
-  `access_token` varchar(255) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `password_reset_token` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `status` smallint(6) NOT NULL,
-  `created_at` varchar(255) NOT NULL,
-  `updated_at` varchar(255) NOT NULL,
-  `employee_id` int(11) NOT NULL,
-  `verification_token` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `auth_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password_reset_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `status` smallint DEFAULT NULL,
+  `created_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `updated_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `employee_id` int DEFAULT NULL,
+  `verification_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `auth_key`, `access_token`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `employee_id`, `verification_token`) VALUES
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL);
 
 --
 -- Indexes for dumped tables
@@ -333,67 +356,67 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `absensi_log`
 --
 ALTER TABLE `absensi_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `absensi_overtime`
 --
 ALTER TABLE `absensi_overtime`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `absensi_status`
 --
 ALTER TABLE `absensi_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `absensi_type`
 --
 ALTER TABLE `absensi_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employees_allowance`
 --
 ALTER TABLE `employees_allowance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employees_position`
 --
 ALTER TABLE `employees_position`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employees_position_salaries`
 --
 ALTER TABLE `employees_position_salaries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employees_tax`
 --
 ALTER TABLE `employees_tax`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salaries`
 --
 ALTER TABLE `salaries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

@@ -1,5 +1,8 @@
 <?php
 
+use yii\helpers\Url;
+use yii\helpers\Html;
+
 /** @var yii\web\View $this */
 
 $this->title = 'Attendance Request';
@@ -49,42 +52,46 @@ $this->title = 'Attendance Request';
                 <div class="relative bg-white rounded-lg overflow-hidden max-w-md w-full">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-900">Add Attendance</h3>
-                        <div>
-                            <div class="mt-2">
-                                <label for="employe" class="block text-sm font-medium leading-6 text-gray-900">Employee</label>
-                                <div class="mt-2 border rounded-md">
-                                    <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Employess">
-                                </div>
-                                <div class="grid grid-cols-2 gap-6 mt-4">
-                                    <div>
-                                        <label for="leaveType" class="block text-sm font-medium text-gray-700 mb-1">Punch In</label>
-                                        <input type="date" id="date" name="date" placeholder="Choose date" class="block border w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <form id="attendanceForm" action="<?= Url::to(['attendance/create-attendance']) ?>" method="post">
+                            <?= Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken) ?>
+                            <div>
+                                <div class="mt-2">
+                                    <label for="employee" class="block text-sm font-medium leading-6 text-gray-900">Employee</label>
+                                    <div class="mt-2 border rounded-md">
+                                        <select id="employee" name="employee" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            <option value="">Choose Employee</option>
+                                            <?php foreach ($employees as $employee) : ?>
+                                                <option value="<?= Html::encode($employee['id']) ?>"><?= Html::encode($employee['nama_depan']) ?> <?= Html::encode($employee['nama_belakang']) ?> </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <!-- <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Employess"> -->
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-6 mt-4">
+                                        <div>
+                                            <label for="punch_in" class="block text-sm font-medium text-gray-700 mb-1">Punch In</label>
+                                            <input type="time" id="punch_in" name="punch_in" class="block border w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="punch_out" class="block text-sm font-medium text-gray-700 mb-1">Punch Out</label>
+                                            <input type="time" id="punch_out" name="punch_out" class="block border w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
-                                        <label for="leaveType" class="block text-sm font-medium text-gray-700 mb-1">Punch Out</label>
-                                        <input type="date" id="date" name="date" placeholder="Choose date" class="block border w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <div class=" border rounded-md mt-4">
+                                            <textarea rows="4" name="comment" id="comment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Reason note"></textarea>
                                         </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class=" border rounded-md mt-4">
-                                        <textarea rows="4" name="comment" id="comment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Reason note"></textarea>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mt-4 flex justify-start">
-                            <button type="button" class="ml-2 mr-2 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">
-                                Save
-                            </button>
-                            <button id="closeModalButton" type="button" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">
-                                Cancel
-                            </button>
-
-                        </div>
+                            <div class="mt-4 flex justify-start">
+                                <button type="submit" class="ml-2 mr-2 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">Save</button>
+                                <button id="closeModalButton" type="button" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">Cancel</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -359,22 +366,54 @@ $this->title = 'Attendance Request';
     const openModalButton = document.getElementById('openModalButton');
     const closeModalButton = document.getElementById('closeModalButton');
     const modal = document.getElementById('modal');
+    const attendanceForm = document.getElementById('attendanceForm');
 
-    // Fungsi untuk menampilkan modal
+    // Function to show the modal
     function openModal() {
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden'); // Optional: Untuk mengunci scroll di belakang modal
+        modal.classList.remove('hidden'); // Show the modal
+        document.body.classList.add('overflow-hidden'); // Optional: Disable scroll on the body
     }
 
-    // Fungsi untuk menyembunyikan modal
+    // Function to hide the modal
     function closeModal() {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden'); // Optional: Mengembalikan scroll di belakang modal
+        modal.classList.add('hidden'); // Hide the modal
+        document.body.classList.remove('overflow-hidden'); // Optional: Enable scroll on the body
     }
 
-    // Event listener untuk tombol buka modal
+    // Event listener to open the modal
     openModalButton.addEventListener('click', openModal);
 
-    // Event listener untuk tombol tutup modal
+    // Event listener to close the modal
     closeModalButton.addEventListener('click', closeModal);
+
+    // Optional: Close modal when clicking outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Handle form submission
+    attendanceForm.onsubmit = function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('<?= Url::to(['attendance/create-attendance']) ?>', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                closeModal(); // Hide the modal on success
+                // Optionally, you could also clear the form fields here
+                attendanceForm.reset();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    };
 </script>

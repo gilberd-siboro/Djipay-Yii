@@ -48,7 +48,7 @@ $this->title = 'Leave Request';
                                 <label for="employe" class="block text-sm font-medium leading-6 text-gray-900">Employee</label>
                                 <div class="mt-2 border rounded-md">
                                     <!-- <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Name"> -->
-                                    <select id="employe" name="employe" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                    <select id="employee" name="employee" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                                         <option value="">Choose Employee</option>
                                         <?php foreach ($employees as $employee) : ?>
                                             <option value="<?= Html::encode($employee['id']) ?>"><?= Html::encode($employee['nama_depan']) ?> <?= Html::encode($employee['nama_belakang']) ?> </option>
