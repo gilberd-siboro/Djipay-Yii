@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
@@ -43,89 +44,85 @@ $this->title = 'Leave Request';
                 <div class="relative bg-white rounded-lg overflow-hidden max-w-md w-full">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-900">Assign Leave</h3>
-                        <div>
+                        <form id="assignLeave" action="<?= Url::to(['leave/create-leave']) ?>" method="post">
+                            <?= Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken) ?>
                             <div>
-                                <label for="employe" class="block text-sm font-medium leading-6 text-gray-900">Employee</label>
-                                <div class="mt-2 border rounded-md">
-                                    <!-- <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Name"> -->
-                                    <select id="employee" name="employee" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                        <option value="">Choose Employee</option>
-                                        <?php foreach ($employees as $employee) : ?>
-                                            <option value="<?= Html::encode($employee['id']) ?>"><?= Html::encode($employee['nama_depan']) ?> <?= Html::encode($employee['nama_belakang']) ?> </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="grid grid-cols-2 gap-6 mt-4">
-                                    <div>
-                                        <label for="leaveType" class="block text-sm font-medium text-gray-700 mb-1">Leave Type</label>
-                                        <div class="relative">
-                                            <select id="leaveType" name="leaveType" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                                <option value="">Choose leave type</option>
-                                            </select>
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-2">
-                                        <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                                        <div class="relative">
-                                            <input type="date" id="date" name="date" placeholder="Choose date" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-2">
-                                        <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
-                                        <div class="relative border rounded-md">
-                                            <select id="duration" name="duration" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                                <option value="">Choose duration</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                            </select>
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-2">
-                                        <label for="attachments" class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
-                                        <div class="relative border rounded-md">
-                                            <input type="file" id="attachments" name="attachments" placeholder="Choose file" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div>
-                                    <div class=" border rounded-md mt-4">
-                                        <textarea rows="4" name="comment" id="comment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Reason"></textarea>
+                                    <label for="employe" class="block text-sm font-medium leading-6 text-gray-900">Employee</label>
+                                    <div class="mt-2 border rounded-md">
+                                        <!-- <input type="text" employe="employe" id="employe" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter Name"> -->
+                                        <select id="employee" name="employee" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            <option value="">Choose Employee</option>
+                                            <?php foreach ($employees as $employee) : ?>
+                                                <option value="<?= Html::encode($employee['id']) ?>"><?= Html::encode($employee['nama_depan']) ?> <?= Html::encode($employee['nama_belakang']) ?> </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-6 mt-4">
+                                        <!-- <div>
+                                            <label for="leaveType" class="block text-sm font-medium text-gray-700 mb-1">Leave Type</label>
+                                            <div class="relative border rounded-md">
+                                                <select id="leaveType" name="leaveType" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                                    <option value="">Choose leave type</option>
+                                                    <?php foreach ($absensi_type as $type) : ?>
+                                                        <option value="<?= Html::encode($type['id']) ?>"><?= Html::encode($type['type']) ?> </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="mt-2">
+                                            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                            <div class="relative border rounded-md">
+                                                <input type="date" id="date" name="date" placeholder="Choose date" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-2">
+                                            <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
+                                            <div class="relative border rounded-md">
+                                                <select id="duration" name="duration" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                                    <option value="">Choose duration</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                </select>
+                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-2">
+                                            <label for="attachments" class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+                                            <div class="relative border rounded-md">
+                                                <input type="file" id="attachments" name="attachments" placeholder="Choose file" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class=" border rounded-md mt-4">
+                                            <textarea rows="4" name="comment" id="comment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Reason"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mt-4 flex justify-start">
-                            <button type="button" class="ml-2 mr-2 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">
-                                Save
-                            </button>
-                            <button id="closeModalButton" type="button" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">
-                                Cancel
-                            </button>
-
-                        </div>
+                            <div class="mt-4 flex justify-start">
+                                <button id="saveButton" type="submit" class="ml-2 mr-2 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">Save</button>
+                                <button id="closeModalButton" type="button" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-opacity-50">Cancel</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -170,15 +167,16 @@ $this->title = 'Leave Request';
                 </tr>
             </thead>
             <tbody>
+            <?php foreach ($leave as $leaves) : ?>
                 <tr class="py-2">
                     <td class="px-4 py-2">
-                        <img class="inline-block h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> Bayu
+                        <img class="inline-block h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> <?= $leaves['nama_depan'] ?> <?= $leaves['nama_belakang'] ?>
                     </td>
-                    <td class="px-4 py-2">AQRS0328</td>
-                    <td class="px-4 py-2"><span class="">Part-time</span></td>
-                    <td class="px-4 py-2">Support</td>
-                    <td class="px-4 py-2">8h-17h</td>
-                    <td class="px-4 py-2">9/23/16</td>
+                    <td class="px-4 py-2"><?= $leaves['tanggal_absensi'] ?></td>
+                    <td class="px-4 py-2"><span class=""><?= $leaves['day'] ?></span></td>
+                    <td class="px-4 py-2"></td>
+                    <td class="px-4 py-2"><?= $leaves['type'] ?></td>
+                    <td class="px-4 py-2"><?= $leaves['bukti_hadir'] ?></td>
                     <td class="px-4 py-2">
                         <div x-data="Components.menu({ open: false })" x-init="init()" @keydown.escape.stop="open = false; focusButton()" @click.away="onClickAway($event)" class="relative inline-block text-left">
                             <div>
@@ -207,117 +205,8 @@ $this->title = 'Leave Request';
                         </div>
                     </td>
                 </tr>
-                <tr class="py-2">
-                    <td class="px-4 py-2">
-                        <img class="inline-block h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> Bayu
-                    </td>
-                    <td class="px-4 py-2">AQRS0328</td>
-                    <td class="px-4 py-2"><span class="">Part-time</span></td>
-                    <td class="px-4 py-2">Support</td>
-                    <td class="px-4 py-2">8h-17h</td>
-                    <td class="px-4 py-2">9/23/16</td>
-                    <td class="px-4 py-2">
-                        <div x-data="Components.menu({ open: false })" x-init="init()" @keydown.escape.stop="open = false; focusButton()" @click.away="onClickAway($event)" class="relative inline-block text-left">
-                            <div>
-                                <button type="button" class="relative -m-2 flex items-center rounded-full p-2 text-gray-400 hover:text-gray-600" id="options-menu-0-button" x-ref="button" @click="onButtonClick()" @keyup.space.prevent="onButtonEnter()" @keydown.enter.prevent="onButtonEnter()" aria-expanded="true" aria-haspopup="true" x-bind:aria-expanded="open.toString()" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()">
-                                    <span class="absolute -inset-1"></span>
-                                    <span class="sr-only">Open options</span>
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" x-ref="menu-items" x-description="Dropdown menu, show/hide based on menu state." x-bind:aria-activedescendant="activeDescendant" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()" @keydown.tab="open = false" @keydown.enter.prevent="open = false; focusButton()" @keyup.space.prevent="open = false; focusButton()">
-                                <div class="py-1" role="none">
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" x-state:on="Active" x-state:off="Not Active" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 0, 'text-gray-700': !(activeIndex === 0) }" role="menuitem" tabindex="-1" id="options-menu-0-item-0" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 0)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Response</span>
-                                    </a>
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 1, 'text-gray-700': !(activeIndex === 1) }" role="menuitem" tabindex="-1" id="options-menu-0-item-1" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 1)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Approve</span>
-                                    </a>
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 2, 'text-gray-700': !(activeIndex === 2) }" role="menuitem" tabindex="-1" id="options-menu-0-item-2" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 2)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Reject</span>
-                                    </a>
-                                </div>
-                            </div>
+                <?php endforeach ?>
 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="py-2">
-                    <td class="px-4 py-2">
-                        <img class="inline-block h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> Bayu
-                    </td>
-                    <td class="px-4 py-2">AQRS0328</td>
-                    <td class="px-4 py-2"><span class="">Part-time</span></td>
-                    <td class="px-4 py-2">Support</td>
-                    <td class="px-4 py-2">8h-17h</td>
-                    <td class="px-4 py-2">9/23/16</td>
-                    <td class="px-4 py-2">
-                        <div x-data="Components.menu({ open: false })" x-init="init()" @keydown.escape.stop="open = false; focusButton()" @click.away="onClickAway($event)" class="relative inline-block text-left">
-                            <div>
-                                <button type="button" class="relative -m-2 flex items-center rounded-full p-2 text-gray-400 hover:text-gray-600" id="options-menu-0-button" x-ref="button" @click="onButtonClick()" @keyup.space.prevent="onButtonEnter()" @keydown.enter.prevent="onButtonEnter()" aria-expanded="true" aria-haspopup="true" x-bind:aria-expanded="open.toString()" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()">
-                                    <span class="absolute -inset-1"></span>
-                                    <span class="sr-only">Open options</span>
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" x-ref="menu-items" x-description="Dropdown menu, show/hide based on menu state." x-bind:aria-activedescendant="activeDescendant" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()" @keydown.tab="open = false" @keydown.enter.prevent="open = false; focusButton()" @keyup.space.prevent="open = false; focusButton()">
-                                <div class="py-1" role="none">
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" x-state:on="Active" x-state:off="Not Active" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 0, 'text-gray-700': !(activeIndex === 0) }" role="menuitem" tabindex="-1" id="options-menu-0-item-0" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 0)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Response</span>
-                                    </a>
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 1, 'text-gray-700': !(activeIndex === 1) }" role="menuitem" tabindex="-1" id="options-menu-0-item-1" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 1)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Approve</span>
-                                    </a>
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 2, 'text-gray-700': !(activeIndex === 2) }" role="menuitem" tabindex="-1" id="options-menu-0-item-2" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 2)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Reject</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </td>
-                </tr>
-                <tr class="py-2">
-                    <td class="px-4 py-2">
-                        <img class="inline-block h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> Bayu
-                    </td>
-                    <td class="px-4 py-2">AQRS0328</td>
-                    <td class="px-4 py-2"><span class="">Part-time</span></td>
-                    <td class="px-4 py-2">Support</td>
-                    <td class="px-4 py-2">8h-17h</td>
-                    <td class="px-4 py-2">9/23/16</td>
-                    <td class="px-4 py-2">
-                        <div x-data="Components.menu({ open: false })" x-init="init()" @keydown.escape.stop="open = false; focusButton()" @click.away="onClickAway($event)" class="relative inline-block text-left">
-                            <div>
-                                <button type="button" class="relative -m-2 flex items-center rounded-full p-2 text-gray-400 hover:text-gray-600" id="options-menu-0-button" x-ref="button" @click="onButtonClick()" @keyup.space.prevent="onButtonEnter()" @keydown.enter.prevent="onButtonEnter()" aria-expanded="true" aria-haspopup="true" x-bind:aria-expanded="open.toString()" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()">
-                                    <span class="absolute -inset-1"></span>
-                                    <span class="sr-only">Open options</span>
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" x-ref="menu-items" x-description="Dropdown menu, show/hide based on menu state." x-bind:aria-activedescendant="activeDescendant" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()" @keydown.tab="open = false" @keydown.enter.prevent="open = false; focusButton()" @keyup.space.prevent="open = false; focusButton()">
-                                <div class="py-1" role="none">
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" x-state:on="Active" x-state:off="Not Active" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 0, 'text-gray-700': !(activeIndex === 0) }" role="menuitem" tabindex="-1" id="options-menu-0-item-0" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 0)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Response</span>
-                                    </a>
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 1, 'text-gray-700': !(activeIndex === 1) }" role="menuitem" tabindex="-1" id="options-menu-0-item-1" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 1)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Approve</span>
-                                    </a>
-                                    <a href="#" class="text-gray-700 flex px-4 py-2 text-sm" :class="{ 'bg-gray-100 text-gray-900': activeIndex === 2, 'text-gray-700': !(activeIndex === 2) }" role="menuitem" tabindex="-1" id="options-menu-0-item-2" @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 2)" @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">
-                                        <span>Reject</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </td>
-                </tr>
             </tbody>
         </table>
         <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
@@ -364,27 +253,63 @@ $this->title = 'Leave Request';
         </div>
     </div>
 </div>
-
 <script>
+document.addEventListener('DOMContentLoaded', () => {
     const openModalButton = document.getElementById('openModalButton');
     const closeModalButton = document.getElementById('closeModalButton');
     const modal = document.getElementById('modal');
+    const assignLeave = document.getElementById('assignLeave');
 
-    // Fungsi untuk menampilkan modal
+    // Function to show the modal
     function openModal() {
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden'); // Optional: Untuk mengunci scroll di belakang modal
+        modal.classList.remove('hidden'); // Show the modal
+        document.body.classList.add('overflow-hidden'); // Optional: Disable scroll on the body
     }
 
-    // Fungsi untuk menyembunyikan modal
+    // Function to hide the modal
     function closeModal() {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden'); // Optional: Mengembalikan scroll di belakang modal
+        modal.classList.add('hidden'); // Hide the modal
+        document.body.classList.remove('overflow-hidden'); // Optional: Enable scroll on the body
     }
 
-    // Event listener untuk tombol buka modal
+    // Event listener to open the modal
     openModalButton.addEventListener('click', openModal);
 
-    // Event listener untuk tombol tutup modal
+    // Event listener to close the modal
     closeModalButton.addEventListener('click', closeModal);
+
+    // Optional: Close modal when clicking outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Handle form submission
+    assignLeave.onsubmit = function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('<?= Url::to(['leave/create-leave']) ?>', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data); // Tambahkan log untuk melihat respons
+                if (data.status === 'success') {
+                    // Tutup modal dan atur ulang form jika respons sukses
+                    closeModal(); 
+                    assignLeave.reset();
+                    // location.reload(); // Refresh the page
+                } else {
+                    // Jika ada pesan kesalahan dari server
+                    console.error('Server error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    };
+});
+
 </script>

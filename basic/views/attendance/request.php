@@ -406,14 +406,36 @@ $this->title = 'Attendance Request';
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                alert(data.message);
+                // alert(data.message);
                 closeModal(); // Hide the modal on success
                 // Optionally, you could also clear the form fields here
                 attendanceForm.reset();
-            } else {
-                alert(data.message);
             }
         })
         .catch(error => console.error('Error:', error));
     };
 </script>
+
+<!-- <script>
+    const openModalButton = document.getElementById('openModalButton');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const modal = document.getElementById('modal');
+
+    // Fungsi untuk menampilkan modal
+    function openModal() {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden'); // Optional: Untuk mengunci scroll di belakang modal
+    }
+
+    // Fungsi untuk menyembunyikan modal
+    function closeModal() {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden'); // Optional: Mengembalikan scroll di belakang modal
+    }
+
+    // Event listener untuk tombol buka modal
+    openModalButton.addEventListener('click', openModal);
+
+    // Event listener untuk tombol tutup modal
+    closeModalButton.addEventListener('click', closeModal);
+</script> -->
