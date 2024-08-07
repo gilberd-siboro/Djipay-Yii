@@ -5,43 +5,61 @@ namespace app\controllers;
 use Yii;
 use yii\web\Response;
 use yii\web\Controller;
+use yii\data\Pagination;
 
 class AttendanceController extends Controller
 {
     public function actionDailylog()
     {
-        $sql = "
-        SELECT
-            employees.nama_depan, 
-            employees.nama_belakang, 
-            absensi_log.waktu_absensi, 
-            absensi_overtime.end_time
-        FROM
-            absensi_overtime
-        INNER JOIN
-            employees
-        ON 
-            absensi_overtime.employee_id = employees.id
-        INNER JOIN
-            `user`
-        ON 
-            employees.id = `user`.employee_id
-        INNER JOIN
-            absensi_log
-        ON 
-            absensi_log.created_by = `user`.id
-            WHERE
-            (
-                absensi_log.id_absensi_type = 1 AND
-                absensi_log.id_absensi_status = 1
-            )
-    ";
 
-        $command = Yii::$app->db->createCommand($sql);
-        $request = $command->queryAll();
+        $searchModel = Yii::$app->request->get('search', '');
+
+        $employees = (new \yii\db\Query())
+        ->select(['user.id', 'employees.nama_belakang', 'employees.nama_depan'])
+        ->from('employees')
+        ->innerJoin('user', 'employees.id = user.employee_id')
+        ->all();
+
+        $query = (new \yii\db\Query())
+        ->select([
+            'employees.nama_depan', 
+            'employees.nama_belakang', 
+            'absensi_log.waktu_absensi', 
+            'absensi_overtime.end_time', 
+            'absensi_log.id'
+        ])
+        ->from('employees')
+        ->innerJoin('user', 'employees.id = user.employee_id')
+        ->innerJoin('absensi_log', 'absensi_log.created_by = user.id')
+        ->innerJoin('absensi_overtime', 'absensi_overtime.employee_id = user.id')
+        ->where([
+            'absensi_log.id_absensi_type' => 1,
+            'absensi_log.id_absensi_status' => 1
+        ]);
+
+        if ($searchModel) {
+            $query->andWhere(['like', 'employees.nama_depan', $searchModel])
+                ->orWhere(['like', 'employees.nama_belakang', $searchModel]);
+        }
+
+        $countQuery = clone $query;
+        $pagination = new Pagination([
+            'totalCount' => $countQuery->count(),
+            'pageSize' => 5, // Jumlah item per halaman
+        ]);
+
+        // Mengambil data dengan pagination
+        $data = $query
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
 
         return $this->render('dailylog', [
-            'request' => $request
+            'request' => $data,
+            'pagination' => $pagination,
+            'employees' => $employees,
+            'searchModel' => $searchModel
+
         ]);
     }
 
@@ -49,12 +67,56 @@ class AttendanceController extends Controller
 
     public function actionRequest()
     {
-        
-        $command = Yii::$app->db->createCommand('SELECT * FROM employees');
-        $employees = $command->queryAll();
 
-        return $this->render('request', ['employees' => $employees]);
-        // return $this->render('request');
+        $searchModel = Yii::$app->request->get('search', '');
+
+        $employees = (new \yii\db\Query())
+        ->select(['user.id', 'employees.nama_belakang', 'employees.nama_depan'])
+        ->from('employees')
+        ->innerJoin('user', 'employees.id = user.employee_id')
+        ->all();
+
+        $query = (new \yii\db\Query())
+            ->select([
+                'employees.nama_depan',
+                'employees.nama_belakang',
+                'absensi_log.waktu_absensi',
+                'absensi_log.id',
+                'absensi_overtime.end_time',
+                'absensi_type.type',
+                'absensi_status.status'
+            ])
+            ->from('absensi_log')
+            ->innerJoin('absensi_type', 'absensi_log.id_absensi_type = absensi_type.id')
+            ->innerJoin('absensi_status', 'absensi_log.id_absensi_status = absensi_status.id')
+            ->innerJoin('user', 'absensi_log.created_by = user.id')
+            ->innerJoin('employees', 'user.employee_id = employees.id')
+            ->innerJoin('absensi_overtime', 'employees.id = absensi_overtime.employee_id')
+            ->where(['or', ['absensi_log.id_absensi_status' => 2], ['absensi_log.id_absensi_status' => 3]])
+            ->andWhere(['absensi_log.id_absensi_type' => 1]);
+
+            if ($searchModel) {
+                $query->andWhere(['like', 'employees.nama_depan', $searchModel])
+                    ->orWhere(['like', 'employees.nama_belakang', $searchModel]);
+            }
+            $countQuery = clone $query;
+            $pagination = new Pagination([
+                'totalCount' => $countQuery->count(),
+                'pageSize' => 5, // Jumlah item per halaman
+            ]);
+    
+            // Mengambil data dengan pagination
+            $data = $query
+                ->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
+
+        return $this->render('request', [
+            'employees' => $employees,
+            'request' => $data,
+            'pagination' => $pagination,
+            'searchModel' => $searchModel
+        ]);
     }
 
     public function actionCreateAttendance()
@@ -108,6 +170,60 @@ class AttendanceController extends Controller
         }
 
         return ['status' => 'error', 'message' => 'Invalid request.'];
+    }
+    public function actionApprove()
+    {
+        if (Yii::$app->request->isPost) {
+            $logId = Yii::$app->request->post('logId');
+            $currentTime = date('Y-m-d H:i:s');
+            $redirectPage = Yii::$app->request->post('redirect', 'defaultPage');
+            // var_dump($logId);
+            // die(); 
+            
+            $result = Yii::$app->db->createCommand()
+                ->update('absensi_log', [
+                    'id_absensi_status' => 2,
+                    'updated_at' => $currentTime,
+                ], ['id' => $logId])
+                ->execute();
+    
+            if ($result) {
+                Yii::$app->session->setFlash('success', 'Log approved successfully.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Failed to approve log.');
+            }
+    
+            return $this->redirect([$redirectPage]);
+        }
+    
+        // return $this->redirect([$redirectPage]);
+    }
+    
+
+    public function actionReject()
+    {
+        if (Yii::$app->request->isPost) {
+            $logId = Yii::$app->request->post('logId');
+            $currentTime = date('Y-m-d H:i:s');
+            $redirectPage = Yii::$app->request->post('redirect', 'defaultPage');
+
+            $result = Yii::$app->db->createCommand()
+                ->update('absensi_log', [
+                    'id_absensi_status' => 3,
+                    'updated_at' => $currentTime
+                ], ['id' => $logId])
+                ->execute();
+
+            if ($result) {
+                Yii::$app->session->setFlash('success', 'Log rejected successfully.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Failed to reject log.');
+            }
+
+            return $this->redirect([$redirectPage]);
+        }
+
+        // return $this->redirect(Yii::$app->request->url);
     }
 
 

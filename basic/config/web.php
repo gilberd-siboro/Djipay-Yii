@@ -51,10 +51,14 @@ $config = [
                 'jobdesk' => 'jobdesk/index',
                 'employee/allemployee' => 'employee/allemployee',
                 'employee/apointment' => 'employee/apointment',
+                'leave/approve' => 'leave/approve',
+                'leave/reject' => 'leave/reject',
                 'leave/status' => 'leave/status',
                 'leave/request' => 'leave/request',
                 'leave/calendar' => 'leave/calendar',
                 'leave/summary' => 'leave/summary',
+                'attendance/approve' => 'attendance/approve',
+                'attendance/reject' => 'attendance/reject',
                 'attendance/dailylog' => 'attendance/dailylog',
                 'attendance/request' => 'attendance/request',
                 'attendance/detail' => 'attendance/detail',
@@ -73,6 +77,7 @@ $config = [
         ],
     ],
     'params' => $params,
+    'timeZone' => 'Asia/Jakarta', 
 ];
 
 if (YII_ENV_DEV) {
