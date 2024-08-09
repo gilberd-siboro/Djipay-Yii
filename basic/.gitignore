@@ -33,4 +33,4 @@ tests/_support/_generated
 /.vagrant
 
 # Ignore djipay_db.sql
-db_djipay.sql
+# db_djipay.sql
