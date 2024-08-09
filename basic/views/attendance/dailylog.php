@@ -151,7 +151,7 @@ $this->title = 'Attendance Daily Log';
                         </td>
                         <td class="px-4 py-2"><?= $req['waktu_absensi'] ?></td>
                         <td class="px-4 py-2"><span class=""></span></td>
-                        <td class="px-4 py-2"><?= $req['end_time'] ?></td>
+                        <td class="px-4 py-2"></td>
                         <td class="px-4 py-2"></td>
                         <td class="px-4 py-2"></td>
                         <td class="px-4 py-2">

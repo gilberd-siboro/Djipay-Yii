@@ -22,19 +22,17 @@ class AttendanceController extends Controller
 
         $query = (new \yii\db\Query())
         ->select([
+            'absensi_log.id', 
             'employees.nama_depan', 
             'employees.nama_belakang', 
-            'absensi_log.waktu_absensi', 
-            'absensi_overtime.end_time', 
-            'absensi_log.id'
+            'absensi_log.waktu_absensi'
         ])
         ->from('employees')
         ->innerJoin('user', 'employees.id = user.employee_id')
         ->innerJoin('absensi_log', 'absensi_log.created_by = user.id')
-        ->innerJoin('absensi_overtime', 'absensi_overtime.employee_id = user.id')
         ->where([
             'absensi_log.id_absensi_type' => 1,
-            'absensi_log.id_absensi_status' => 1
+            'absensi_log.id_absensi_status' => 1,
         ]);
 
         if ($searchModel) {
@@ -82,7 +80,6 @@ class AttendanceController extends Controller
                 'employees.nama_belakang',
                 'absensi_log.waktu_absensi',
                 'absensi_log.id',
-                'absensi_overtime.end_time',
                 'absensi_type.type',
                 'absensi_status.status'
             ])
@@ -91,7 +88,6 @@ class AttendanceController extends Controller
             ->innerJoin('absensi_status', 'absensi_log.id_absensi_status = absensi_status.id')
             ->innerJoin('user', 'absensi_log.created_by = user.id')
             ->innerJoin('employees', 'user.employee_id = employees.id')
-            ->innerJoin('absensi_overtime', 'employees.id = absensi_overtime.employee_id')
             ->where(['or', ['absensi_log.id_absensi_status' => 2], ['absensi_log.id_absensi_status' => 3]])
             ->andWhere(['absensi_log.id_absensi_type' => 1]);
 
